@@ -1,0 +1,60 @@
+﻿1. 애플리케이션 실행 단계 = 자바 소스 파일 - 컴파일러 - .dex 파일 - apkbuilder - .apk 파일 - Android OS 스마트폰 다운로드 설치 및 실행
+
+2. 애플리케이션은 컴포넌트로 이루어집니다 = 액티비티(activity) + 서비스(service) + 방송 수신자(broadcast reciver) + 컨텐트 제공자(content provider)
+
+3. 액티비티(activity) = 사용자 인터페이스 화면을 가지는 하나의 작업 = 액티비티들이 모여서 애플리케이션이 됩니다.
+    Ex) 이메일 애플리케이션 = 액티비티1(수신된 이메일 리스트 표시) + 액티비티2(이메일 작성) + 액티비티3(수신된 이메일 내용 표시)
+
+4. 서비스(service) = 백그라운드에서 실행되는 컴포넌트로서 오랫동안 실행되는 작업이나 원격 프로세스를 위한 작업 = (예) 배경 음악을 연주하는 작업
+    Ex) 미디어 플레이어 애플리케이션 = 액티비티1(음악 재생 화면) + 서비스1(음악 재생 서비스)
+
+5. 방송 수신자(broadcast reciver) = 방송이나 공지를 받고(수신하고) 반응하는 컴포넌트
+
+6. 컨텐트 제공자(content provider) = 데이터를 관리하고 다른 애플리케이션에게 제공하는 컴포넌트
+    Ex1) 일반적인 앱(액티비티로 구성함) ↔ 데이터 앱 = 콘텐트 제공자(insert(), update(), delete(), query()) + DB
+    Ex2) 전화번호부 애플리케이션 = 액티비티1(주소록 화면) + 콘텐트 제공자1(주소 DB 정보들을 제공함)
+
+7. 인텐트(Intent : 액티비티간의 화면전환) = 애플리케이션의 의도를 적어서 안드로이드에 전달하면 안드로이드가 가장 적절한 컴포넌트를 찾아서 활성화하고 실행함
+
+8. 앱 매니페스트 파일 = 영어로 manifest는 드러내다, 나타내다 등을 의미합니다. 모든 앱 프로젝트는 프로젝트 소스 세트의 루트에 AndroidManifest.xml 파일(정확히 이 이름)이 있어야 합니다.
+                                  매니페스트 파일은 Android 빌드 도구, Android 운영체제 및 Google Play에 앱에 관한 필수 정보를 나타냅니다.
+                                  <activity> 요소 : 액티비티 선언, <service> 요소 : 서비스 선언, <receiver> 요소 : 방송 수신자, <provider> 요소 : 컨텐트 제공자
+
+9. 안드로이드 앱 개발 과정
+   1) 개발 환경 구축 = 개발 환경 설정(안드로이드 SDK, 개발 도구, 플랫폼 설치) + AVD와 장치 설정(가상 장치 생성 또는 실제 장치 연결)
+   2) 개발 = 애플리케이션 생성(프로젝트를 생성하고 소스 코드, 리소스, 매니페스트 파일 작성)
+   3) RUN/디버깅 및 테스팅 = 애플리케이션 빌드와 실행(애플리케이션 빌드와 디버그 모드로 실행)
+                                       + 애플리케이션 디버깅(디버그 도구와 로깅 도구를 이용하여 디버그)
+                                       + 애플리케이션 테스팅(안드로이드 테스팅 및 측정 프레임워크 이용)
+   4) 배포 = 애플리케이션 배포 준비(배포 모드로 애플리케이션을 구성 및 테스트)
+              + 애플리케이션 배포(사용자에게 애플리케이션 공개, 배포, 판매)
+
+10. 첫 번째 앱 프로젝트 생성
+   1) 안드로이드 스튜디오 시작 : Start a new Android Studio Project 선택
+   2) Application name 입력
+   3) Company domain 입력
+   4) Project location 입력 : 프로젝트가 생성되는 폴더를 지정함, Ex) C:\android_app\firstapp (firstapp 프로젝트 생성)
+   5) Target Android Devices = Phone and Tablet 체크(앱이 실행될 수 있는 최소 버전의 SDK 버전을 선택함)
+   6) 애플리케이션 추가 액티비티 유형 선택
+   7) Activity Name(액티비티의 이름을 입력함) : Ex) MainActivity
+   8) Layout Name(레이아웃의 이름을 입력함) : Ex) activity_main
+   9) 에러가 나타난다면 가령, Error: Install Build Tools 26.0.2 and synd project 메시지라면 그냥 빌드 도구 설치(Install Build Tools... 링크를 클릭해서 설치해주면 됨)
+ 10) 참고 사항 : 안드로이드 스튜디오는 컴퓨터의 이름이 한글로 되어 있거나 프로젝트 폴더 경로에 스페이스나 한글이 있으면 오류가 날 수 있기에,
+                      컴퓨터 이름 및 프로젝트 폴더 이름은 공백 없이 영문으로 하는것을 권장합니다.
+ 11) AVD(Android Virtual Device) = 실제 안드로이드 폰을 흉내 내는 에뮬레이터(emulator) 또는 가상장치입니다.
+       "실행" 버튼(▶)클릭 후 AVD 에뮬레이터나 USB 연결된 장치를 찾습니다.
+      Ex) AVD Nexus 5X 생성 시 에뮬레이터에 사용되는 가상 운영체제인 시스템 이미지(System Image) 선택 - 프로그램 설치 Next - 라이선스 동의 Next - Finish
+
+      * Android Emulator 앱 실행 (AVD Emulator extended controls 설명 포함)
+         https://developer.android.com/studio/run/emulator?hl=ko
+
+11. 기타 Android 개발 참고 사항
+   1) Android 개발자 참고 웹 사이트 = https://developer.android.com/?hl=ko
+   2) GitHub 연동
+      ① File - Settings - Version Control - Git - Path to Git executable: 란에 폴더를 클릭하고, Git 설치 경로를 지정하고 git.exe 선택해 줌
+      ② File - New - Project from Version Control - GitHub 선택 - Host: 란에 github.com 입력, Save Password 체크, Login란과 Password란에 입력 - Login
+      ③ Clone Repository - Git Repository URL: 입력, Parent Directory: 입력, Directory Name: 입력
+   3) Android App 프로젝트 임포트 = File - New - Import Project
+
+
+

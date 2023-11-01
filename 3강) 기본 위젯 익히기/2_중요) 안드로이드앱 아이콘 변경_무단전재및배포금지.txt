@@ -1,0 +1,53 @@
+※ 안드로이드앱 아이콘 변경 [본 자료의 무단 전재 및 배포를 금지합니다]
+
+
+1단계) 이미지를 준비합니다. 아래는 이미지 다운로드 웹 사이트입니다.
+
+   1) 예시 : 안드로이드앱 아이콘으로 사용하고 싶은 png 파일을
+              다운로드하기 위해 아래 웹사이트에 접속합니다]
+
+       https://www.iconfinder.com/
+
+ 
+   2) PNG 파일 이미지를 준비합니다.
+      또는 위의 웹 사이트에서 이미지를 선택하고 다운로드 받습니다.
+     (중요 : xml 형식에서 파일 이름을 소문자로 권장하기 때문에,
+              PNG  이미지 파일명을 소문자로 해주시기 바랍니다)
+
+2단계) 안드로이드 스튜디오에서 File => New => Image Asset 클릭합니다.
+ 
+        1) Name: 란에 아이콘 이름을 입력합니다.
+           (중요 : xml 형식에서 파일 이름을 소문자로 권장하기 때문에,
+                    아이콘 이름은 소문자로 해주시기 바랍니다)
+       
+        2) 하단 Layer Name: 란에 아이콘의 레이어별 이름을 입력해 줍니다.
+           (중요 : xml 형식에서 파일 이름을 소문자로 권장하기 때문에,
+                    아이콘의 레이어별 이름은 소문자로 해주시기 바랍니다)
+ 
+        3) Path: 에서 앞서 준비했던 이미지의 경로를 지정해 줍니다.
+           (중요 : xml 형식에서 파일 이름을 소문자로 권장하기 때문에,
+                    이미지 이름은 소문자로 해주시기 바랍니다)
+
+        참고_1) 아래 Resize 항목에서 Bar 조정을 통해서 아이콘 크기를 조정할 수 있습니다.
+
+        참고_2) Background Layer 탭을 선택하고 Layer Name 수정. 필자는 뒤에 check를 붙였음.
+
+        참고_3) Source Asset 아래 Asset Type: Color 체크하고, Color 변경도 가능합니다.
+ 
+3단계) Next - Finish를 클릭해 줍니다.
+
+4단계) AndroidManifest.xml 파일을 열어서
+
+         application 태그에서 android:icon 속성과 android:roundIcon 속성을 변경해 줍니다.
+
+         [아래는 AndroidManifest.xml 파일 예시 소스 코드입니다]
+
+	<?xml version="1.0" encoding="utf-8"?>
+         ~~ 중간 생략 ~~
+	    <application
+	        android:icon="@mipmap/sate"
+	        android:roundIcon="@mipmap/sate_round"
+        
+	~~ 아래 생략 ~~
+
+5단계) 앱을 실행해서 아이콘 변경을 확인해 봅니다.

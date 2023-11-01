@@ -1,0 +1,38 @@
+[실습 확인 : 안드로이드 스튜디오 "관리자 권한 실행" 바랍니다]
+* 확장자 APK 배포(Android Application Package 배포)
+  (안드로이드 핸드폰에서 APK 형식으로 실행해서 확인 가능함)
+[중요 : 배포용 앱 생성은 RSample 프로젝트 또는 Chapter04_Calculator 프로젝트로 해보시기 바랍니다]
+  1. debug용 앱 설치 : Build - Build Bundle(s) / APK(s) - Build APK(s) 선택
+     debug용 앱 생성 파일은
+     C:\AndroidApp_Study\RSample\app\build\outputs\apk\debug 폴더에서
+     app-debug.apk 파일 확인 가능함. output-metadata.json 파일은 정보 기록 파일임.
+     앱 설치는 app-debug.apk 파일로 확인이 가능함.
+  2. release 배포용 앱 설치 : Build - Generate Signed Bundle or APK - APK 선택
+     - Create new... 버튼 클릭 - Key store path: 란에 "C:\AndroidApp_Study\RSample\app\release\test.jks" 입력
+     - Password: 란에 비밀번호 6자리 이상 넣어주고, Confirm: 란에도 비밀번호 6자리 이상 넣어줌
+     - Key 아래에도 Password: 란에 비밀번호 6자리 이상 넣어주고, Confirm: 란에도 비밀번호 6자리 이상 넣어줌
+     - 아래 Certifacate 아래 First and Last Name: 란에 test 입력해 주고, 아래 OK 버튼 클릭!
+     - Key strore password 입력란에 비밀번호 6자리 이상 넣어주고, Key password 입력란에도 비밀번호 6자리 이상 넣어줌
+     - Next 버튼 클릭 - Destination Folder:에서 C:\AndroidApp_Study\RSample\app\release 폴더 선택 넣어줌
+     - 아래 Build Variants:에서 release 클릭 - 아래 Finish 버튼 클릭
+ 3_중요) C:\AndroidApp_Study\RSample\app\release 폴더 안에 생성된 app-release.apk 파일 확인 바람.
+     output-metadata.json 파일은 정보 기록 파일임. 앱 설치는 app-release.apk 파일로 확인이 가능함.
+
+-----------------------------------------------------------------------------------------------------------------------------
+
+[학습 참고 : AAB 파일은 생성만 하고, 안드로이드 앱에서 다운로드 설치는 하지 마시기 바랍니다.
+               구글 등록이 아닌 경우 안드로이드 핸드폰에서 확인하려면 별도 ABB 실행 앱 설치해서
+               확인이 필요합니다]
+* 2021년 8월부터 Google 정책 변경으로
+  신규 사용자는 AAB 파일만 App Budle "업로드" 가능함.
+  (단, 기존에 등록한 앱은 APK 파일 형식을 사용할 수 있음)
+  
+* 확장자 ABB 배포(Android Application Bundle 최신 형식 배포)
+  (구글 등록이 아닌 경우, 안드로이드 핸드폰에서 확인하려면 별도 ABB 실행 앱 설치 필요함)
+  1) release 배포용 앱 설치 : Build - Generate Signed Bundle or APK - Android App Bundle
+  2) C:\AndroidApp_Study\RSample\app\release 폴더에
+     app-release.aab 파일 확인 바람. 앱 설치는 app-release.aab 파일로 하게 되는데,
+     apk 형식 파일과는 다르게, 구글 등록이 아닌 경우 안드로이드 핸드폰에서 확인하려면
+     별도 ABB 실행 앱 설치해서 확인이 필요함.
+
+==========================================================================

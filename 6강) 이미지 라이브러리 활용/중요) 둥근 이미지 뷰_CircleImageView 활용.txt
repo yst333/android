@@ -1,0 +1,83 @@
+※ 둥근 이미지 뷰(CircleImageView)
+
+둥근 이미지뷰가 필요할 때 사용하는 라이브러리입니다.
+CircleImageView는 ImageView를 확장한 라이브러리이기 때문에
+기본 사용법은 ImageView와 동일합니다.
+
+https://developer.android.com/reference/android/widget/ImageView
+
+1. 라이브러리 공식 웹 사이트
+
+   https://github.com/hdodenhof/CircleImageView
+
+
+2. CircleImageView 라이브러리 추가 방법
+
+[build.gradle(Module)에 다음의 코드를 추가해 줍니다.
+ 그리고, 우측 상단 "Sync Project with Gradle Files" 버튼을 클릭해 줍니다]
+
+dependencies {
+	implementation 'de.hdodenhof:circleimageview:2.2.0'
+}
+
+3. CircleImageView 라이브러리 사용 방법 : 사용방법은 간단하며,
+   앞서 ImageView 대신에 CircleImageView를 사용하면 됩니다.
+   참고로, 속성 정보 등 자세한 사항은 라이브러리 공식 웹 사이트 참고 바랍니다.
+
+4. xml 파일에 구문 추가(예시 : activity_mail.xml)
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    tools:context=".MainActivity">
+
+   <!--
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/rabbit_image"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:src="@drawable/rabbit"
+        app:civ_border_width="2dp"
+        app:civ_border_color="#FF000000"/>
+     -->
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/rabbit_image"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_gravity="center"
+        android:background="@android:color/transparent"
+        app:civ_border_overlay="true"
+        app:civ_border_width="5dp"
+        app:civ_border_color="#000000"
+        android:src="@drawable/rabbit"
+        />
+
+</LinearLayout>
+
+5. 예시 : activity_mail.xml 주요 구문 설명
+
+   1) civ_border_overlay 속성 : CircleImageView의 테두리가 이미지와 겹칠 것인지 설정합니다.
+                                      true면 이미지와 겹치게 테두리를 그리고 false면 이미지 바깥쪽에 테두리를 그립니다.
+                                      default는 false입니다.
+
+   2) civ_border_width 속성 : CircleImageView의 테두리 굵기입니다.
+
+   3) civ_border_color 속성 : CircleImageView의 테두리 색상입니다.
+
+   4) src : 원하는 이미지 resource 파일 지정
+
+   5) 여기서는 CircleImageView로 rabbit 이미지에 app:civ_border_width 속성값으로
+       5dp의 검은색 테두리를 그려주었습니다.
+
+        [적용 소스 코드]
+        app:civ_border_width="5dp"
+        app:civ_border_color="#000000"
+        android:src="@drawable/rabbit"
+
+=================================================================================

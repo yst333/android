@@ -1,0 +1,35 @@
+※ Android Studio Application 실행의 경우, Android OS 스마트폰을 USB 연결하여 실행 확인하는 것을 권장합니다.
+   AVD 가상 에뮬레이터의 경우, 기본 OS 실행하에 가상 OS 기반으로 실행이 되기 때문에, 실행 속도가 많이 느려집니다.
+   그래서, Android OS 스마트폰을 USB 연결하여 실행 확인하는 것을 권장합니다.
+
+1. Android Studio 빌드(Build) 스마트폰 Device 연결 에러 해결 : 에러 메시지 확인 후 다음의 체크 사항 확인 바랍니다.
+  1) Build - Clean Project - Build - Rebuild Project
+  2) Tools - SDK Manager - SDK Platforms API Level 버전 Install 추가
+  3) Tools - AVD Manager - Create Virtual Device... Install 추가
+  4) 프로젝트(예시: app) 위에서 마우스 우클릭 - Open Module Settings - Modules
+      - app - Properties - Compile Sdk Version 체크, Build Tools Version 체크
+      - Default Config - Target SDK Version 체크, Min SDK Version 체크 - Apply - OK
+  5) 변경 사항이 있을 경우, Apply - OK - Android Studio 재시작
+
+2. AVD Manager 실행 오류 해결 : Enable VT-x in your BIOS security settings
+   1) Tools - AVD Manager - Android Virtual Device(AVD) - Recommendation - "VT-x is disabled in BIOS" 에러 메시지 확인
+   2) Tools - SDK Manager - SDK Tools - Intel x86 Emulator Accelator(HAXM installer) 설치 확인
+   3) 윈도우즈키 + R - dxdiag (CPU 종류 확인)
+   4) CPU 가상화 지원 확인 : 인텔 가상화 기술(VT-x) (예시: Intel Pentium G5400 3.7GHz)
+        https://ark.intel.com/content/www/kr/ko/ark/products/129951/intel-pentium-gold-g5400-processor-4m-cache-3-70-ghz.html
+   5) 재부팅
+   6) 부팅 시 BIOS 들어가기 위해 Del 키 눌러줌(BIOS 들어가는 키는 PC 메인보드마다 다를 수 있음)
+   7) BIOS - Intel 가상화 기술 - 허용 - 저장(SAVE) - 종료
+
+3. Emulator: audio: Failed to create voice 'abc' 등 에러 문제 해결
+  1) 마이크가 연결되어 있지 않거나 운영체제가 마이크를 인식할 수 없는 상황에서 발생하는 경고라고 함
+  2) 그냥 에러를 무시하고 기다리면, 앱이 실행되면서 가상 Emulator에서 Application 실행은 됨
+  3) 에러 문제 해결을 위해 다음의 ①, ②, ③을 시도해 볼 수도 있음(OS 환경, 개발 환경에 따라서 차이가 있을 수 있음)
+     ① .android 폴더 - avd 폴더 - 가상에뮬레이터(예시: Nexus_5X_API_29)
+     ② C:\Users\starh\.android\avd\Nexus_5X_API_29.avd 폴더 안에 config.ini 파일에 있는 hw.dPad=no 를 hw.dPad=yes 로 수정 - 저장
+     ③ 윈도우즈키 + R - mmsys.cpl - 녹음 - "마이크" 선택 후 우클릭 "사용 안함"으로 변경함 - 확인
+
+4. 그 밖에 AVD 실행 시 에러 해결(Windows Hyper-V 기능 켜기)
+   1) 윈도우즈키 + R - appwiz.cpl - Windows 기능 켜기/끄기 - Windows 하이퍼바이저 플랫폼 체크 - 확인
+   2) 윈도우즈키 + R - appwiz.cpl - Windows 기능 켜기/끄기 - Hyper-V 체크 - 확인
+   3) PC 리부팅

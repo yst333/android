@@ -1,0 +1,394 @@
+※ AndroidApp 프론트 앤드 개발 WebView URL 연동 및 전화걸기 기능 적용(본 자료의 무단 전재 및 배포를 금지합니다) 
+
+1.  다음과 같이 activity_sign_up_success.xml 파일 안에
+    "회사소개 및 전화걸기 바로가기!" 버튼 소스 추가 코딩함.
+
+   [activity_sign_up_success.xml 파일 생성 및 소스 코딩]
+
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="148dp"
+        android:layout_marginBottom="38dp"
+        android:gravity="center"
+        android:text="로그인 성공!"
+        app:layout_constraintBottom_toTopOf="@+id/btnGoWebCall"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnGoWebCall"
+        android:layout_width="261dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="65dp"
+        android:layout_marginRight="65dp"
+        android:layout_marginBottom="69dp"
+        android:text="회사소개 및 전화걸기 바로가기!"
+        app:layout_constraintBottom_toTopOf="@+id/btnGoMain"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <Button
+        android:id="@+id/btnGoMain"
+        android:layout_width="112dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="65dp"
+        android:layout_marginRight="65dp"
+        android:layout_marginBottom="356dp"
+        android:text="로그아웃"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnGoWebCall" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+2.  res - layout 선택 후 마우스 우클릭 - New - Layout Resource File 클릭
+
+    - File name: 입력란에 activity_web_call 입력하고 아래에 "Root element: 입력란에
+
+    - androidx.constraintlayout.widget.ConstraintLayout 확인함 - OK 버튼 클릭!
+
+    - 다음과 같이 activity_web_call.xml 파일 안에 소스 코딩함.
+
+   [activity_web_call.xml 파일 생성 및 소스 코딩]
+
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- 명시적 인텐트(Explicit Intent)의 개념은
+      두 액티비티를 사용자가 직접 생성하고 코딩하는 것이라면,
+      암시적 인텐트(Implicit Intent)는 약속된 액션을 지정하여
+      안드로이드에서 제공하는 기존 응용 프로그램을 실행하는 것입니다.
+      전화번호를 인텐트로 넘긴 후에
+      전화 걸기 응용 프로그램이 실행되는 것을 한 예로 들 수 있습니다. -->
+    <Button
+        android:id="@+id/btnWeb"
+        android:layout_width="0dp"
+        android:layout_height="54dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="184dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginRight="25dp"
+        android:text="KBS 홈페이지 바로가기"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnDial"
+        android:layout_width="0dp"
+        android:layout_height="54dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="71dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginBottom="69dp"
+        android:text="전화 걸기"
+        app:layout_constraintBottom_toBottomOf="@+id/btnFinish"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/btnWeb" />
+
+    <Button
+        android:id="@+id/btnFinish"
+        android:layout_width="0dp"
+        android:layout_height="54dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="86dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginRight="25dp"
+        android:text="Activity 종료(여기서는 이전 Activity로 Go!)"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnWeb" />
+
+    <Button
+        android:id="@+id/btnGoMain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="37dp"
+        android:layout_marginEnd="22dp"
+        android:layout_marginRight="22dp"
+        android:text="메인으로"
+        app:layout_constraintEnd_toStartOf="@+id/btnLogout"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnLogout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="34dp"
+        android:layout_marginRight="34dp"
+        android:text="로그아웃"
+        app:layout_constraintBaseline_toBaselineOf="@+id/btnGoMain"
+        app:layout_constraintEnd_toEndOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+3. AndroidApp_FrontEnd\app\src\main\java\com\androidstudy\androidapp_frontend 패키지 안에
+   다음과 같이 WebViewCallActivity 클래스 파일 생성 및 소스 코딩함.
+
+  [WebViewCallActivity 클래스 파일 생성 및 소스 코딩]
+
+package com.androidstudy.androidapp_frontend;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class WebViewCallActivity extends AppCompatActivity {
+
+//    Code - Override Methods...
+//    - Ctrl + 마우스왼클릭으로 6가지 라이프사이클 메서드 선택
+//    - OK 버튼 클릭
+    @Override
+    protected void onStart() {
+        super.onStart();
+        android.util.Log.i("액티비티 테스트", "onStart()");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        android.util.Log.i("액티비티 테스트", "onStop()");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        android.util.Log.i("액티비티 테스트", "onDestroy()");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        android.util.Log.i("액티비티 테스트", "onPause()");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        android.util.Log.i("액티비티 테스트", "onResume()");
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        android.util.Log.i("액티비티 테스트", "onRestart()");
+    }
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_web_call);
+        setTitle("회사 홈페이지 연결 및 전화 걸기 기능 적용");
+
+        // 하단 "4: Run" 클릭 또는
+        // 상단 View - Tool Windows - Run 클릭 실행
+        // 회사소개 및 전화걸기 바로가기! 버튼 클릭하고
+        // 액티비티 테스트 메시지 및 라이프사이클 실행 메서드 확인
+        // - KBS 홈페이지 열기 버튼 클릭 실행 확인 후에 ◁ 버튼 클릭하고
+        // 액티비티 테스트 메시지 및 라이프사이클 실행 메서드 확인
+        // - 전화 걸기 버튼 클릭 실행 확인 후에 ◁ 버튼 3번 클릭하고
+        // 액티비티 테스트 메시지 및 라이프사이클 실행 메서드 확인
+        // - Activity 종료(여기서는 이전 Activity로 Go!) 버튼 클릭하고
+        // 액티비티 테스트 메시지 및 라이프사이클 실행 메서드 확인
+        // AVD(또는 스마트폰 앱)에서 "Activity 종료(여기서는 이전 Activity로 Go!)" 버튼(또는 AVD 우측 ◁ 버튼) 클릭하고
+        // "액티비티 테스트: onDestory() 메서드 실행 확인
+        android.util.Log.i("액티비티 테스트", "onCreate()");
+
+        Button btnGoMain = (Button) findViewById(R.id.btnGoMain);
+        Button btnLogout = (Button) findViewById(R.id.btnLogout);
+
+        Button btnWeb = (Button) findViewById(R.id.btnWeb);
+        Button btnDial = (Button) findViewById(R.id.btnDial);
+        Button btnFinish = (Button) findViewById(R.id.btnFinish);
+
+        btnGoMain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), SignUpSuccess.class);
+                startActivity(intent);
+            }
+        });
+
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btnWeb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Uri uri = Uri.parse("http://www.kbs.co.kr");
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
+            }
+        });
+
+        btnDial.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Uri uri = Uri.parse("tel:01012345678");
+                Intent intent = new Intent(Intent.ACTION_DIAL, uri);
+                startActivity(intent);
+            }
+        });
+
+        btnFinish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // finish() 메서드로 현재 액티비티를 종료 처리합니다.
+                finish();
+            }
+        });
+    }
+}
+
+
+
+4. AndroidApp_FrontEnd\app\src\main\java\com\androidstudy\androidapp_frontend 패키지 안에
+   다음과 같이 SignUpSuccess 클래스 파일 수정 코딩함.
+
+  [SignUpSuccess 클래스 파일 수정 코딩]
+
+package com.androidstudy.androidapp_frontend;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class SignUpSuccess extends AppCompatActivity {
+
+    Button btnGoMain;
+    Button btnGoWebCall;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_sign_success);
+
+        btnGoMain = (Button)findViewById(R.id.btnGoMain);
+        btnGoMain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btnGoWebCall = (Button)findViewById(R.id.btnGoWebCall);
+        btnGoWebCall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), WebViewCallActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+}
+
+
+
+
+5. AndroidManifest.xml 파일 안에 다음과 같이 권한(permission) 및 activity를
+     WebView 인터넷 연결 사용 권한, 전화 걸기 권한,
+     application 태그에 android:usesCleartextTraffic="true" 설정을 추가해 줍니다.
+
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.androidstudy.androidapp_frontend">
+
+    <!-- INTERNET uses-permission 추가 : 안드로이드 앱 http 통신 허용 -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <!-- 전화 걸기 권한을 추가해 줍니다 -->
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+
+    <!-- 중요 : http는 https에 비해 보안 수준이 약하기 때문에 http 주소 이용을 위해
+         별도의 permission 설정이 필요합니다. 그래서, 다음과 같이
+         AndroidManifest.xml 파일 안에 application 태그에서
+         android:usesCleartextTraffic="true"로 설정하면
+         모든 Http 주소에 접근할 수 있습니다. -->
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:usesCleartextTraffic="true"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.AndroidApp_FrontEnd">
+
+        <!--  SignUpActivity 처리 클래스 추가-->
+        <activity android:name=".SignUpActivity"></activity>
+        <!--  SignUpSuccess 처리 클래스 추가-->
+        <activity android:name=".SignUpSuccess"></activity>
+        <!--  WebViewCallActivity 처리 클래스 추가-->
+        <activity android:name=".WebViewCallActivity"></activity>
+
+<!--        로그인 화면이 있는 테스트용 MainActivity 처리 클래스 추가-->
+<!--        <activity android:name=".MainActivity"></activity>-->
+
+<!--        <activity android:name=".WebViewCallActivity">-->
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
+
+6. 안드로이드 스튜디오 실행 확인
+   1) 앱 로그인 - 회사소개 및 전화걸기 바로가기! 버튼 클릭
+       - KBS 홈페이지 열기 버튼 클릭 실행 확인 후에 ◁ 버튼 클릭
+       - 전화 걸기 버튼 클릭 실행 확인 후에 ◁ 버튼 3번 클릭
+       - Activity 종료(여기서는 이전 Activity로 Go!)
+   2) 하단 "4: Run" 클릭 또는
+      상단 View - Tool Windows - Run 클릭 실행
+      회사소개 및 전화걸기 바로가기! 버튼 클릭하고
+      액티비티 테스트 메시지 및 라이프사이클 실행 메서드 확인
+      - KBS 홈페이지 열기 버튼 클릭 실행 확인 후에 ◁ 버튼 클릭하고
+      액티비티 테스트 메시지 및 라이프사이클 실행 메서드 확인
+      - 전화 걸기 버튼 클릭 실행 확인 후에 ◁ 버튼 3번 클릭하고
+      액티비티 테스트 메시지 및 라이프사이클 실행 메서드 확인
+      - Activity 종료(여기서는 이전 Activity로 Go!) 버튼 클릭하고
+      액티비티 테스트 메시지 및 라이프사이클 실행 메서드 확인
+      AVD(또는 스마트폰 앱)에서 "Activity 종료(여기서는 이전 Activity로 Go!)" 버튼(또는 AVD 우측 ◁ 버튼) 클릭하고
+      "액티비티 테스트: onDestory() 메서드 실행 확인
+
+7. 참고 사항
+    Invalid Gradle JDK configuration found. Open Gradle Settings 
+    Use JDK from project structure
+    메시지 나타날 경우, Use JDK from project structure 링크 클릭하면 문제가 해결됩니다.

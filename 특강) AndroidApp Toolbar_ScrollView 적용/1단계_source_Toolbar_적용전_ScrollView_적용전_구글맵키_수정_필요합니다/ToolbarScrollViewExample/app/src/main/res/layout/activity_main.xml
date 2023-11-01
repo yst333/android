@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <Button
+        android:id="@+id/btnLogout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="56dp"
+        android:layout_marginEnd="59dp"
+        android:text="로그아웃"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="22dp"
+        android:layout_marginBottom="68dp"
+        android:gravity="center"
+        android:text="로그인 성공!"
+        app:layout_constraintBottom_toTopOf="@+id/btnGoWebCall"
+        app:layout_constraintEnd_toStartOf="@+id/btnLogout" />
+
+    <Button
+        android:id="@+id/btnGoWebCall"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="257dp"
+        android:text="회사소개"
+        app:layout_constraintEnd_toEndOf="@+id/btnAdapterView"
+        app:layout_constraintStart_toStartOf="@+id/btnAdapterView"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnAdapterView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:text="상품안내"
+        app:layout_constraintEnd_toEndOf="@+id/btnLocationGo"
+        app:layout_constraintStart_toStartOf="@+id/btnLocationGo"
+        app:layout_constraintTop_toBottomOf="@+id/btnGoWebCall" />
+
+    <Button
+        android:id="@+id/btnLocationGo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="38dp"
+        android:layout_marginEnd="52dp"
+        android:text="회사위치"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnAdapterView" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

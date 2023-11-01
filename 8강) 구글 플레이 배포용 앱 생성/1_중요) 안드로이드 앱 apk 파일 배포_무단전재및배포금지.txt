@@ -1,0 +1,72 @@
+※ 안드로이드 앱 apk 파일 배포 [본 자료의 무단 전재 및 배포를 금지합니다]
+
+[첫번째 : Key 생성 방법(키 생성 권장하는 방법)]
+
+안드로이드 스튜디오 - "관리자 권한 실행" - 상단 build 클릭
+- Generate Signed Bundle / APK... 클릭 - APK 체크 - Next 버튼 클릭
+- Create new... 버튼 클릭 - Key store path: 경로 및 Password: 를 아래 예시와 같이 입력해 줍니다.
+[예시]
+1) C:\Users\hi-guro\.keystore
+2) Password: 123456
+3) Confirm: 123456
+4) Alias : testkey
+5) Password : 123456
+6) Confirm : 123456
+[Cerificate의 기타 입력 사항 값들을 넣어줍니다. 값을 넣지 않아도 진행은 됩니다]
+7) Country Code (XX): 82
+- OK 버튼 클릭
+- Choose existing... 버튼 클릭 - Key store path에서 key 파일을 선택해 줍니다.
+
+[예시]
+1) Key store path 입력란에서 다음의 경로를 확인합니다.
+   C:\Users\hi-guro\.keystore
+2) Key store password 입력란에 아래와 같이 비밀번호를 입력해 줍니다.
+   123456
+3) Key alias 입력란에 아래와 같이 keytool -list -v 확인 key를 입력해 줍니다.
+    testkey
+4) Key password 입력란에 아래와 같이 비밀번호를 입력해 줍니다.
+   123456
+5) Next - release 클릭 - 하단 V1(Jar Signature)와 V2 (Full APK Signature) 체크 박스 체크 - Finish 버튼 클릭
+
+3. 안드로이드 실행 후 apk 배포(release) 파일 실행 확인
+
+[예시]
+C:\AndroidApp_Study\MyCalculator\app\release 폴더 안에서
+
+app-release.apk 파일을 확인합니다.
+
+안드로이드 운영체제 스마트폰으로 파일 전송(또는 이메일 발송)해서 배포 파일 실행 확인 바랍니다.
+
+[중요 : 안드로이드 OS 스마트폰에 앱 설치 시, "패키지가 잘못되어 앱이 설치되지 않았습니다" 문제 해결 방법]
+build.gradle 파일에서 targetSdkVersion 30으로 맞추고 다시 Build 하시기 바랍니다.
+
+=======================================================================
+
+[두번째 : Key 생성 방법]
+cmd 창을 "관리자 권한 실행" 하고, 아래의 명령어를 처리합니다.
+
+[아래]
+Microsoft Windows [Version 10.0.19044.2604]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Windows\system32>cd\
+
+C:\>cd c:\cookandroid\android-studio\jre\bin
+
+C:\CookAndroid\android-studio\jre\bin>keytool -genkey
+
+키 저장소 비밀번호 입력:     [6자 이상]
+이름과 성을 입력하십시오.   [성과 이름 입력]
+조직 단위를 입력하십시오.   [조직단위 입력]
+조직 이름을 입력하십시오.   [조직 이름 입력]                          
+구/군/시 이름을 입력하십시오? [구/군/시 입력]                             
+시/도 이름을 입력하십시오.      [시/도] 입력                           
+이 조직의 두 자리 국가 코드를 입력하십시오.  [한국은 82]                       
+CN=[성 이름], OU=[조직 단위], O=[조직 이름], L=[구/군/시], ST=[시/도], C=[국가코드] 가 맞습니까?
+  [아니오]:  [y 입력]
+<mykey> 에 대한 키 비밀번호를 입력하십시오.               
+        (키 저장소 비밀번호와 동일한 경우 Enter 키를 누름): 
+
+[중요 : 아래와 같이 명령어 입력해서 생성된 key를 확인해 봅니다]
+C:\CookAndroid\android-studio\jre\bin>keytool -list -v
+

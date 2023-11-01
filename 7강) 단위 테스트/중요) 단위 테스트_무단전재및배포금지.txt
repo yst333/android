@@ -1,0 +1,154 @@
+※ 안드로이드 Java jUnit 테스트 수행하기
+
+안드로이드 스튜디오는 단위 테스트, UI 테스트 등의 테스트 도구를 제공합니다.
+
+1. [중요] UnitTest 프로젝트 생성
+
+2. [중요] Calculator 클래스 생성
+* 예시 : com.android.unittest 패키지 안에 다음과 같이 Calculator 소스 코딩함
+
+package com.android.unittest;
+
+// 단위(Unit) 테스트
+// 안드로이드 스튜디오에서 프로젝트를 생성하면 기본적으로
+// 테스트 코드를 작성하는 폴더가 함께 생성됩니다.
+// 패키지명 옆에, (androidTest) 라고 표시된 디렉터리는
+// UI 테스트 코드를 작성하는 곳이며,
+// 패키지명 옆에, (test)가 표시된 디렉터리는
+// 단위 테스트 코드를 작성하는 곳입니다.
+// 우리는 (test)가 표시된 디렉터리에
+// 기본으로 생성되는 ExampleUnitTest.java 파일을
+// 확인해 보겠습니다.
+
+public class Calculator {
+    // 더하기
+    public static int add(int a, int b) {
+        return a + b;
+    }
+
+    // 빼기
+    public static int subtract(int a, int b) {
+        return a - b;
+    }
+
+    // 곱하기
+    public static int multiply(int a, int b) {
+        return a * b;
+    }
+
+    // 나누기
+    public static int division(int a, int b) {
+        return a / b;
+    }
+}
+
+======================================
+
+3. 테스트 수행하기
+기본으로 생성되는 ExampleUnitTest.java 파일에서
+다음과 같이 테스트 메서드를 실행해 봅니다.
+
+[ExampleUnitTest.java 소스 수정 코딩]
+
+package com.android.unittest;
+
+import org.junit.Test;
+
+import static org.junit.Assert.*;
+
+/**
+ * Example local unit test, which will execute on the development machine (host).
+ *
+ * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
+ */
+public class ExampleUnitTest {
+    // 클래스 단위로 테스트 수행 : 클래스 선언 행에서 다음의 테스트 실행 방법 진행
+    // 테스트 실행 방법 : 클래스 선언(또는 메서드 선언) 행에서 실행 아이콘 클릭
+    // (또는 커서 두고 마우스 우클릭 Run 'addition_isCorrect()' 선택
+    @Test  // 메서드 단위로 테스트 수행
+    public void addition_isCorrect() {
+        // assertEquals() 메서드는 단위 테스트 코드를 작성할 때 예상 값과 실제 값을
+        // 비교, 검증하는 메서드입니다. 여기서 결과가 참이면 테스트에 성공이며,
+        // 거짓이면 실패입니다. 참고로, JUnit 테스트 코드를 작성할 때는
+        // 테스트할 메서드에 @Test 어노테이션(annotation)을 붙여야 합니다.
+        assertEquals(4, 2 + 2);
+    }
+}
+
+======================================
+
+4. 테스트 코드 작성하기
+테스트 코드를 작성하기 위해, Calculator.java(Calculator.class) 파일 안에 있는
+Calculator 클래스에 마우스 커서를 두고 마우스 오른쪽을 클릭한 다음,
+[GoTo → Test]를 선택해서 [Create New Test]를 선택합니다.
+
+1) Testing library: 에서는 JUnit4 를 선택해 줍니다.
+
+2) [Create Test] 창이 열리면 테스트 코드를 작성하고자 하는 메서드를 모두 선택합니다.
+   옵션으로 setUp/@Before와 tearDown/@After를 체크해 줍니다. 이것은 각각
+   초기화와 테스트 완료 시에 한번씩 호출되는 메서드를 자동으로 생성해 주는 옵션입니다.
+
+3) Generate test methods for: 란에 있는 4개 메서드(add, subtract, multiply, division)를
+   모두 체크 선택해 줍니다.
+
+4) OK 버튼을 클릭해 줍니다.
+
+5) [중요] 다음으로 2가지 (androidTest)와 (test) 선택 화면이 나타나는데,
+   우리는 아래에 (test) 란을 선택해 줍니다. 그러면 (test) 란에 테스트 코드가
+   자동으로 생성됩니다.
+
+======================================
+
+5. 테스트 코드 실행하기
+
+[CalculatorTest.java 소스 코딩]
+
+package com.android.unittest;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
+
+public class CalculatorTest {
+
+// 전테스트 : 반복되는 준비 작업을 별도의 메소드에 넣게 해 주고,
+// 이를 매번 테스트 메소드를 실행하기 전에 먼저 자동으로 실행시켜주는 기능이다.
+    @Before 
+    public void setUp() throws Exception {
+    }
+
+// 후테스트 : @Before와 거의 같은 기능이지만,
+// @Test가 붙은 메소드를 호출한 후 실행된다는 점에서 다르다.
+    @After 
+    public void tearDown() throws Exception {
+    }
+
+    @Test
+    public void add() {
+    }
+
+    @Test
+    public void subtract() {
+    }
+
+    // assertEquals() 메서드는 단위 테스트 코드를 작성할 때 예상 값과 실제 값을
+    // 비교, 검증하는 메서드입니다. 여기서 결과가 참이면 테스트에 성공이며,
+    // 거짓이면 실패입니다. 참고로, JUnit 테스트 코드를 작성할 때는
+    // 테스트할 메서드에 @Test 어노테이션(annotation)을 붙여야 합니다.
+    @Test
+    public void multiply() {
+        assertEquals(0, Calculator.multiply(0, 10));
+        assertEquals(10, Calculator.multiply(1, 10));
+    }
+
+    @Test
+    public void division() {
+ 			    // 세번째 인자 0은 오차 허용치를 나타냅니다
+        assertEquals(2.5, Calculator.division(5, 2), 0);
+        assertEquals(2, Calculator.division(4, 2));
+    }
+}
+
+======================================

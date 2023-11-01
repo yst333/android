@@ -1,0 +1,679 @@
+※ AndroidApp 프론트 앤드 개발(본 자료의 무단 전재 및 배포를 금지합니다) 
+
+1. Android Studio 실행 - Create New Project
+   - Name 필드란에 "AndroidApp_FrontEnd" 기재함 - Finish 버튼 클릭
+   (우측 하단 빌드 진행 완료를 기다려 줍니다)
+
+2. 좌측편 Android - Gradle Scripts - build.gradle 파일 안에
+
+   ~~ 위에 소스 생략 ~~
+
+   dependencies { 안에 다음과 같이 Retrofit, moshi 컨버터 라이브러리 추가해줌.
+
+    // Retrofit
+    implementation "com.squareup.retrofit2:retrofit:2.9.0"
+    implementation "com.squareup.retrofit2:converter-moshi:2.9.0"
+
+   ~~ 아래 소스 생략 ~~
+
+3. dependencies 의존성 라이브러리 추가 후 상단 Sync 클릭!
+
+4. res - layout 안에 다음과 같이 activity_main.xml 파일 소스를 수정해 줍니다.
+
+   [activity_main.xml 파일 소스 수정]
+
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:text="아이디 : " />
+
+        <EditText
+            android:id="@+id/signInId"
+            android:layout_width="168dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:layout_marginRight="20dp"
+            android:inputType="textPersonName" />
+
+        <Button
+            android:id="@+id/btnSignIn"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:layout_weight="1"
+            android:text="로그인" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="110dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:layout_marginLeft="10dp"
+            android:text="비밀번호 : " />
+
+        <EditText
+            android:id="@+id/signInPw"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:layout_marginRight="20dp"
+            android:inputType="textPassword" />
+
+        <Button
+            android:id="@+id/btnGoSignUp"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:layout_weight="1"
+            android:text="회원가입" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+5.  res - layout 선택 후 마우스 우클릭 - New - Layout Resource File 클릭
+
+    - File name: 입력란에 activity_sign_up 입력하고 아래에 "Root element: 입력란에
+
+    - androidx.constraintlayout.widget.ConstraintLayout 확인함 - OK 버튼 클릭! - 우측 상단 "Code" 탭 클릭!
+
+    - 다음과 같이 activity_sign_up.xml 파일 안에 소스 코딩함.
+
+   [activity_sign_up.xml 파일 생성 및 소스 코딩]
+
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="240dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/textView01"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:text="아이디 : " />
+
+        <EditText
+            android:id="@+id/signInId"
+            android:layout_width="168dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="textPersonName" />
+
+        <Button
+            android:id="@+id/btnSignIn"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:layout_weight="1"
+            android:text="로그인" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
+
+        <TextView
+            android:id="@+id/textView02"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:text="비밀번호 : " />
+
+        <EditText
+            android:id="@+id/signInPw"
+            android:layout_width="168dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="textPersonName" />
+
+        <Button
+            android:id="@+id/btnGoSignUp"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:layout_weight="1"
+            android:text="회원가입" />
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+6.  res - layout 선택 후 마우스 우클릭 - New - Layout Resource File 클릭
+
+    - File name: 입력란에 activity_sign_success 입력하고 아래에 "Root element: 입력란에
+
+    - LinearLayout 기재함 - OK 버튼 클릭! - 우측 상단 "Code" 탭 클릭!
+
+    - 다음과 같이 activity_sign_up_success.xml 파일 안에 소스 코딩함.
+
+   [activity_sign_up_success.xml 파일 생성 및 소스 코딩]
+
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginBottom="61dp"
+        android:gravity="center"
+        android:text="로그인 성공!"
+        app:layout_constraintBottom_toTopOf="@+id/btnGoMain"
+        app:layout_constraintEnd_toStartOf="@+id/btnGoMain" />
+
+    <Button
+        android:id="@+id/btnGoMain"
+        android:layout_width="112dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginBottom="322dp"
+        android:text="로그아웃"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+7. AndroidApp_FrontEnd\app\src\main\java\com\example\androidapp_frontend 패키지 선택
+
+   마우스 우클릭 - New - Package 클릭 - com.example.androidapp_frontend.retrofit 기재하고 Enter Key 클릭함!
+
+   - retrofit 패키지 선택 - 마우스 우클릭 - New - Java Class - User 기재 후 Enter Key 클릭함!
+
+   User 클래스에 다음과 같이 소스 코딩함.  그리고, 상단 Code 클릭 - Generate... 클릭 - Getter and Setter 클릭
+
+   - Ctrl 키 클릭 상태에서 마우스 왼쪽키로 userId, userPassword, userName, userEmail 각각 클릭해줌 - OK 버튼 클릭!
+
+  [User 클래스 소스 코딩]
+
+package com.example.androidapp_frontend.retrofit;
+
+public class User {
+    String userId;
+    String userPassword;
+    String userName;
+    String userEmail;
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getUserPassword() {
+        return userPassword;
+    }
+
+    public void setUserPassword(String userPassword) {
+        this.userPassword = userPassword;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
+    }
+}
+
+8. AndroidApp_FrontEnd\app\src\main\java\com\example\androidapp_frontend 패키지 선택
+
+   마우스 우클릭 - New - Package 클릭 - com.example.androidapp_frontend.retrofit 기재하고 Enter Key 클릭함!
+
+   - retrofit 패키지 선택 - 마우스 우클릭 - New - Java Class - UserApi 기재 후 Enter Key 클릭함!
+
+   UserApi 클래스에 다음과 같이 소스 코딩함.
+
+  [UserApi 클래스 소스 코딩]
+
+package com.example.androidapp_frontend.retrofit;
+
+import com.example.androidapp_frontend.MainActivity;
+
+import retrofit2.Call;
+import retrofit2.http.Body;
+import retrofit2.http.POST;
+
+public interface UserApi {
+    @POST("/signin")
+    Call<Boolean> postUser(@Body User user);
+
+    @POST("/signup")
+    Call<Boolean> createUser(@Body User user);
+}
+
+9. AndroidApp_FrontEnd\app\src\main\java\com\example\androidapp_frontend 패키지 안에
+   다음과 같이 MainActivity 클래스 파일 소스 수정함.
+
+  [MainActivity 클래스 파일 소스 수정]
+package com.example.androidapp_frontend;
+
+package com.androidstudy.androidapp_frontend;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import com.androidstudy.androidapp_frontend.retrofit.User;
+import com.androidstudy.androidapp_frontend.retrofit.UserApi;
+import com.squareup.moshi.Moshi;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.moshi.MoshiConverterFactory;
+
+public class MainActivity extends AppCompatActivity {
+
+    private final String TAG = getClass().getSimpleName();
+
+    Button btnSignIn, btnGoSignUp;
+    EditText signInId, signInPw;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        signInId = (EditText)findViewById(R.id.signInId);
+        signInPw = (EditText)findViewById(R.id.signInPw);
+
+        btnGoSignUp = (Button) findViewById(R.id.btnGoSignUp);
+        btnSignIn = (Button) findViewById(R.id.btnSignIn);
+
+        btnGoSignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btnSignIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String id = signInId.getText().toString();
+                String pw = signInPw.getText().toString();
+
+                User loginInfo = new User();
+                loginInfo.setUserId(id);
+                loginInfo.setUserPassword(pw);
+
+                Moshi moshi = new Moshi.Builder().build();
+
+                // 아래 String json = moshi.adapter(User.class).indent("  ").toJson(loginInfo); 구문을 실행하면
+                // 좌측 json 변수에, 위에서 loginInfo 변수에 설정된 userId, userPassword 정보를
+                // User loginInfo = new User();
+                // loginInfo.setUserId(id);
+                // loginInfo.setUserPassword(pw);
+                String json = moshi.adapter(User.class).indent("  ").toJson(loginInfo);
+
+                // 아래 System.out.println(json); 구문을 실행하면
+                // 안드로이드 스튜디오 하단 "Run" 클릭했을때, 다음과 같이 화면 출력 확인이 가능합니다.
+                // I/System.out: {
+                // I/System.out:   "userId": "test",
+                //                "userPassword": "1234"
+                // }
+                System.out.println(json);
+
+                // Retrofit 객체 생성 및 MoshiConverter 추가
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl("http://IP주소를입력해주시기바랍니다:9003/")
+                        .addConverterFactory(MoshiConverterFactory.create(moshi))
+                        .build();
+
+                UserApi api = retrofit.create(UserApi.class);
+
+                Call<Boolean> call = api.postUser(loginInfo);
+                call.enqueue(new Callback<Boolean>() {
+                    // Controller에서 response.isSuccessful 응답 성공(또는 실패) 시 처리할 프로세스 정의
+                    @Override
+                    public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                        if (response.isSuccessful()){
+                            boolean userExists = response.body();
+
+                            if(userExists){
+                                Intent intent = new Intent(getApplicationContext(), SignUpSuccess.class);
+                                startActivity(intent);
+                            } else {
+                                Toast.makeText(getApplicationContext(), "아이디 혹은 비밀번호가 일치하지 않습니다!", Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            Log.d(TAG, "Status Code : " + response.code());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Boolean> call, Throwable t) {
+                        Log.d(TAG, "Fail msg : " + t.getMessage());
+                    }
+                });
+            }
+        });
+    }
+}
+
+
+10. AndroidApp_FrontEnd\app\src\main\java\com\example\androidapp_frontend 패키지 안에
+   다음과 같이 SignUpActivity 클래스 파일 생성 및 소스 코딩함.
+
+  [SignUpActivity 클래스 파일 생성 및 소스 코딩]
+
+package com.example.androidapp_frontend;
+
+package com.androidstudy.androidapp_frontend;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.androidstudy.androidapp_frontend.retrofit.User;
+import com.androidstudy.androidapp_frontend.retrofit.UserApi;
+import com.squareup.moshi.Moshi;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.moshi.MoshiConverterFactory;
+
+public class SignUpActivity extends AppCompatActivity {
+
+    private final String TAG = getClass().getSimpleName();
+
+    Button btnCancel, btnSingUp;
+    EditText idInput, pwInput, nameInput, emailInput;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_sign_up);
+
+        idInput = (EditText)findViewById(R.id.idInput);
+        pwInput = (EditText)findViewById(R.id.pwInput);
+        nameInput = (EditText)findViewById(R.id.nameInput);
+        emailInput = (EditText)findViewById(R.id.emailInput);
+
+        btnSingUp = (Button) findViewById(R.id.btnSignUp);
+        btnCancel = (Button) findViewById(R.id.btnCancel);
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btnSingUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String id = idInput.getText().toString();
+                String pw = pwInput.getText().toString();
+                String name = nameInput.getText().toString();
+                String email = emailInput.getText().toString();
+
+                User signUpInfo = new User();
+                signUpInfo.setUserId(id);
+                signUpInfo.setUserPassword(pw);
+                signUpInfo.setUserName(name);
+                signUpInfo.setUserEmail(email);
+
+                Moshi moshi = new Moshi.Builder().build();
+
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl("http://IP주소를입력해주시기바랍니다:9003/")
+                        .addConverterFactory(MoshiConverterFactory.create(moshi))
+                        .build();
+
+                UserApi api = retrofit.create(UserApi.class);
+
+                Call<Boolean> call = api.createUser(signUpInfo);
+                call.enqueue(new Callback<Boolean>() {
+                    @Override
+                    public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                        boolean signUpSuccess = response.body();
+
+                        if(signUpSuccess){
+                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            startActivity(intent);
+                        } else {
+                            Toast.makeText(getApplicationContext(), "회원가입에 실패했습니다!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Boolean> call, Throwable t) {
+                        Log.d(TAG, "Fail msg : " + t.getMessage());
+                        Toast.makeText(getApplicationContext(), "회원가입에 실패했습니다!", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+    }
+}
+
+
+
+
+11. AndroidApp_FrontEnd\app\src\main\java\com\example\androidapp_frontend 패키지 안에
+   다음과 같이 SignUpSuccess 클래스 파일 생성 및 소스 코딩함.
+
+  [SignUpSuccess 클래스 파일 생성 및 소스 코딩]
+package com.example.androidapp_frontend;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+
+public class SignUpSuccess extends AppCompatActivity {
+    Button btnGoMain;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_sign_up_success);
+
+        btnGoMain = (Button) findViewById(R.id.btnGoMain);
+        btnGoMain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+}
+
+
+12. AndroidManifest.xml 파일 안에 다음과 같이 권한(permission) 및 activity 추가해 줌.
+
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.androidapp_frontend">
+
+    <!-- INTERNET uses-permission 추가 : 안드로이드 앱 http 통신 허용 -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <!-- 중요 : http는 https에 비해 보안 수준이 약하기 때문에 http 주소 이용을 위해
+         별도의 permission 설정이 필요합니다. 그래서, 다음과 같이
+         AndroidManifest.xml 파일 안에 application 태그에서
+         android:usesCleartextTraffic="true"로 설정하면
+         모든 Http 주소에 접근할 수 있습니다. -->
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:usesCleartextTraffic="true"
+        android:theme="@style/Theme.AndroidApp_FrontEnd">
+
+        <!-- SignUpActivity 처리 클래스 추가 -->
+        <activity android:name=".SignUpActivity" />
+        <!-- SignUpSuccess 성공 알림 클래스 추가 -->
+        <activity android:name=".SignUpSuccess"></activity>
+
+        <activity android:name=".MainActivity">
+   ~~ 아래 소스 생략 ~~
+
+13. 안드로이드 스튜디오 실행
+  1) Invalid Gradle JDK configuration found. Open Gradle Settings 
+     Use JDK from project structure
+     메시지 나타날 경우, Use JDK from project structure 링크 클릭하면 문제 해결됨.
+
+ 2) MainActivity 클래스 66행 .baseUrl() 메서드 안에
+   다음과 같이 http://InsertYourIP:9003/ 넣어줌. 이때, InsertYourIP에는
+   본인 PC의 IP를 넣어주시기 바랍니다.
+   (예시 : .baseUrl("http://192.168.0.99:9003/")
+
+   [MainActivity 클래스 참고]
+
+   ~~ 위에 소스 생략 ~~
+
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl("http://InsertYourIP:9003/")
+                        .addConverterFactory(MoshiConverterFactory.create(moshi))
+                        .build();
+
+   ~~ 아래 소스 생략 ~~
+
+14. 안드로이드 스튜디오 실행 - SignUpActivity 클래스 68행 .baseUrl() 메서드 안에
+   다음과 같이 http://InsertYourIP:9003/ 넣어줌. 이때, InsertYourIP에는
+   본인 PC의 IP를 넣어주시기 바랍니다.
+   (예시 : .baseUrl("http://192.168.0.99:9003/")
+
+   [SignUpActivity 클래스 참고]
+
+   ~~ 위에 소스 생략 ~~
+
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl("http://InsertYourIP:9003/")
+                        .addConverterFactory(MoshiConverterFactory.create(moshi))
+                        .build();
+
+   ~~ 아래 소스 생략 ~~
+
+15. AndroidSpringBoot_front App 실행!
+
+  1) AndroidApp(AVD 가상 스마트폰 또는 실제 스마트폰) ▶ 실행!
+
+  2) "회원가입" 버튼 클릭
+     - "아이디 : ", "이름 : ", "비밀번호 : ", "이메일 : " 입력 후 "회원가입" 버튼 클릭!
+
+  3) "아이디 : " 입력, "비밀번호 : " 입력
+
+16. OracleDB에 생성된 user_app 테이블과 데이터 등록 정보를 확인합니다.
+   SQL> select * from tab;
+   SQL> purge recyclebin;  -- 휴지통 내용이 보일 경우 휴지통 비우기 명령어
+   SQL> select * from user_app;
+
+====================================================================
+
+17. 참고사항
+     1_1) Retrofit 한글 메뉴얼 : http://devflow.github.io/retrofit-kr/
+     1_2) Retrofit 영문 메뉴얼 : https://square.github.io/retrofit/
+     2) 안드로이드 Retrofit 사용 : Retrofit은 HTTP API를 interface로 만들어줍니다.
+         https://shwoghk14.blogspot.com/2020/08/android-retrofit.html
+     3) 안드로이드 Moshi 사용 : Moshi는 JSON을 Object로 바꿔주는 편리한 library 입니다.
+         https://shwoghk14.blogspot.com/2020/08/android-moshi.html
+     4) [SpringBoot] SpringBoot와 Retrofit2 연동 및 Retrofit2 사용법
+         https://mangkyu.tistory.com/124
+     5) [Java][Android] OKHtttp를 이용한 회원가입, 로그인(HTTP통신)
+         https://stickode.tistory.com/41
+
+18. OracleDB 휴지통 참고 사항
+   SQL> select * from tab;
+   SQL> show recyclebin;                               -- 휴지통에 있는 테이블 조회
+   SQL> flashback table 테이블명 to before drop;  -- 삭제된 테이블을 복원
+   SQL> drop table 테이블명 purge;                  -- 휴지통에 남기지 않고 완전 삭제
+   SQL> purge table 테이블명;                         -- 휴지통에 있는 테이블 완전 삭제
+   SQL> purge recyclebin;                              -- 휴지통 비우기
+   SQL> select * from user_app;

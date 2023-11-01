@@ -1,0 +1,238 @@
+※ SpringBoot 백앤드 개발(본 자료의 무단 전재 및 배포를 금지합니다) 
+
+1. 앞서 테스트용 HelloController.java 파일 삭제
+
+2. SpringBoot_AndroidApp 프로젝트에서 src\main\java\com\springboot\androidapp 패키지 선택 - 우클릭
+   - New - Package - Name: 란에 com.springboot.androidapp.model 입력 - Finish 버튼 클릭
+
+3. model 패키지 선택 - 우클릭 - New - Class - User.java 생성 및 소스 코딩
+ 
+   [User.java 소스 코딩]
+
+package com.springboot.androidapp.model;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Entity
+@Table(name = "user_app")
+@Getter
+@Setter
+@ToString
+public class User {
+	@Id
+	@Column(name = "user_id")
+	private String userId;
+	@Column(name = "user_name")
+	private String userName;
+	@Column(name = "user_password")
+	private String userPassword;
+	@Column(name = "user_email")
+	private String userEmail;
+
+}
+
+[중요]
+앞서 User에 붉은색 표시되면서 Class "com.springboot.androidapp.model.User" is managed,
+but is not listed in the persistence.xml file"라는 에러 메시지가 나타남. 영속성 등록 설정이 안되었다는
+에러 메시지이며, 앞서 생성된 META-INF 폴더 안에 persistence.xml 파일 안에 설정해 주면 붉은색 표시가
+사라집니다. [다음 : 중요]과 같이 처리해 줍니다.
+[다음 : 중요]
+[이클립스(또는 STS) User.java 열린 상태에서 - 우측 "Outline 탭에서 하단 User 클릭
+- 마우스 우클릭 - JPA Tools 선택 - Add to Persistance Unit 클릭하면, META-INF 폴더 안에
+persistence.xml 파일 안에 User 등록되면서 붉은색 표시가 사라집니다.
+
+우리는 관리 편의성을 고려하여, META-INF 폴더와 persistence.xml 파일은 삭제해 줍니다.
+
+================================================================
+
+4. SpringBoot_AndroidApp 프로젝트에서 src\main\java\com\springboot\androidapp 패키지 선택 - 우클릭
+   - New - Package - Name: 란에 com.springboot.androidapp.service 입력 - Finish 버튼 클릭
+
+5. service 패키지 선택 - 우클릭 - New - Class - UserService.java 생성 및 소스 코딩
+
+   [UserService.java 소스 코딩]
+
+package com.springboot.androidapp.service;
+
+import com.springboot.androidapp.model.User;
+
+public interface UserService {
+
+	void insert(User vo);
+
+	User select(User vo);
+
+}
+
+================================================================
+
+6. SpringBoot_AndroidApp 프로젝트에서 src\main\java\com\springboot\androidapp 패키지 선택 - 우클릭
+   - New - Package - Name: 란에 com.springboot.androidapp.repository 입력 - Finish 버튼 클릭
+
+7. repository 패키지 선택 - 우클릭 - New - Class - UserRepository.java 생성 및 소스 코딩
+ 
+   [UserRepository.java 소스 코딩]
+
+package com.springboot.androidapp.repository;
+
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
+
+import com.springboot.androidapp.model.User;
+
+@Repository
+public interface UserRepository extends CrudRepository<User, String> {
+	
+	User save(User user);
+	
+	User findByUserId(String id);
+
+}
+
+================================================================
+
+8. service 패키지 선택 - 우클릭 - New - Class - UserServiceImpl.java 생성 및 소스 코딩
+
+[UserServiceImpl.java 소스 코딩]
+
+package com.springboot.androidapp.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.springboot.androidapp.model.User;
+import com.springboot.androidapp.repository.UserRepository;
+
+@Service
+public class UserServiceImpl implements UserService {
+	@Autowired
+	UserRepository repo;
+	
+	@Override
+	public void insert(User vo) {
+		repo.save(vo);
+	}
+	
+	@Override
+	public User select(User vo) {
+		User user = repo.findByUserId(vo.getUserId());
+		return user;
+	}
+
+}
+
+================================================================
+
+9. SpringBoot_AndroidApp 프로젝트에서 src\main\java\com\springboot\androidapp 패키지 선택 - 우클릭
+   - New - Package - Name: 란에 com.springboot.androidapp.controller 입력 - Finish 버튼 클릭
+
+10. controller 패키지 선택 - 우클릭 - New - Class - UserController.java 생성 및 소스 코딩
+
+   [UserController.java 소스 코딩]
+
+package com.springboot.androidapp.controller;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.springboot.androidapp.model.User;
+import com.springboot.androidapp.service.UserService;
+
+// RESTful API 처리를 위한 애노테이션 설정
+@RestController
+public class UserController {
+	@Autowired
+	private UserService service;
+
+             // @RequestBody 는 HttpServletRequest request(요청) 사항의
+             // Body 전송 데이터를 자바 객체로 변환할 때 사용함.
+             // 참고로, @ResponseBody 의 경우, 자바 객체를 HttpServletResponse response(응답) 사항의
+             // Body 전송 데이터로 변환할 때 사용함.
+	@RequestMapping(value = "/signin")
+	public boolean signIn(@RequestBody User vo, HttpServletRequest request) {
+
+		User user;
+
+		try {
+			user = service.select(vo);
+		} catch (NullPointerException e) {
+			user = null;
+		}
+		if(user != null) {
+			if (user.getUserPassword().equals(vo.getUserPassword())) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	@RequestMapping(value = "/signup")
+	public boolean signUp(@RequestBody User vo) {
+		System.out.println(vo);
+		try {
+			service.insert(vo);
+			System.out.println(true);
+			return true;
+		} catch (Exception e) {
+			System.out.println(false);
+			return false;
+		}
+	}
+}
+
+
+================================================================
+
+11. SpringBoot_AndroidApp 프로젝트 클릭 선택 - 마우스 우클릭 - Run As - Spring Boot App 실행
+
+
+[정상 실행 예시]
+
+12:22:38.003 [Thread-1] DEBUG org.springframework.boot.devtools.restart.classloader.RestartClassLoader - Created RestartClassLoader org.springframework.boot.devtools.restart.classloader.RestartClassLoader@60af819e
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v2.5.9)
+
+2022-02-20 12:22:38.365  INFO 11192 --- [  restartedMain] c.e.SpringBootAndroidAppApplication      : Starting SpringBootAndroidAppApplication using Java 1.8.0_221 on GENIE with PID 11192 (C:\SPRING_REVIEW\SpringBoot_AndroidApp\target\classes started by starh in C:\SPRING_REVIEW\SpringBoot_AndroidApp)
+2022-02-20 12:22:38.365  INFO 11192 --- [  restartedMain] c.e.SpringBootAndroidAppApplication      : No active profile set, falling back to default profiles: default
+2022-02-20 12:22:38.406  INFO 11192 --- [  restartedMain] o.s.b.devtools.restart.ChangeableUrls    : The Class-Path manifest attribute in C:\SPRING_REVIEW\SpringBoot_AndroidApp\src\main\webapp\WEB-INF\lib\orai18n.jar referenced one or more files that do not exist: file:/C:/SPRING_REVIEW/SpringBoot_AndroidApp/src/main/webapp/WEB-INF/lib/orai18n-mapping.jar,file:/C:/SPRING_REVIEW/SpringBoot_AndroidApp/src/main/webapp/WEB-INF/lib/orai18n-utility.jar,file:/C:/SPRING_REVIEW/SpringBoot_AndroidApp/src/main/webapp/WEB-INF/lib/orai18n-collation.jar,file:/C:/SPRING_REVIEW/SpringBoot_AndroidApp/src/main/webapp/WEB-INF/lib/orai18n-translation.jar,file:/C:/SPRING_REVIEW/SpringBoot_AndroidApp/src/main/webapp/WEB-INF/lib/orai18n-net.jar,file:/C:/SPRING_REVIEW/SpringBoot_AndroidApp/src/main/webapp/WEB-INF/lib/orai18n-servlet.jar,file:/C:/SPRING_REVIEW/SpringBoot_AndroidApp/src/main/webapp/WEB-INF/lib/orai18n-lcsd.jar,file:/C:/SPRING_REVIEW/SpringBoot_AndroidApp/src/main/webapp/WEB-INF/lib/orai18n-tools.jar,file:/C:/SPRING_REVIEW/SpringBoot_AndroidApp/src/main/webapp/WEB-INF/lib/gdk_custom.jar
+2022-02-20 12:22:38.407  INFO 11192 --- [  restartedMain] o.s.b.devtools.restart.ChangeableUrls    : The Class-Path manifest attribute in C:\Users\starh\.m2\repository\com\oracle\database\jdbc\ojdbc8\21.1.0.0\ojdbc8-21.1.0.0.jar referenced one or more files that do not exist: file:/C:/Users/starh/.m2/repository/com/oracle/database/jdbc/ojdbc8/21.1.0.0/oraclepki.jar
+2022-02-20 12:22:38.407  INFO 11192 --- [  restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2022-02-20 12:22:38.407  INFO 11192 --- [  restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2022-02-20 12:22:39.124  INFO 11192 --- [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-02-20 12:22:39.188  INFO 11192 --- [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 54 ms. Found 1 JPA repository interfaces.
+2022-02-20 12:22:39.885  INFO 11192 --- [  restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 9003 (http)
+2022-02-20 12:22:39.892  INFO 11192 --- [  restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-02-20 12:22:39.893  INFO 11192 --- [  restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.37]
+2022-02-20 12:22:40.141  INFO 11192 --- [  restartedMain] org.apache.jasper.servlet.TldScanner     : At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+2022-02-20 12:22:40.145  INFO 11192 --- [  restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-02-20 12:22:40.145  INFO 11192 --- [  restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1738 ms
+2022-02-20 12:22:40.332  INFO 11192 --- [  restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-02-20 12:22:40.377  INFO 11192 --- [  restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.33
+2022-02-20 12:22:40.548  INFO 11192 --- [  restartedMain] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2022-02-20 12:22:40.645  INFO 11192 --- [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2022-02-20 12:22:40.647  WARN 11192 --- [  restartedMain] com.zaxxer.hikari.util.DriverDataSource  : Registered driver with driverClassName=oracle.jdbc.driver.OracleDriver was not found, trying direct instantiation.
+2022-02-20 12:22:41.242  INFO 11192 --- [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2022-02-20 12:22:41.255  INFO 11192 --- [  restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.Oracle10gDialect
+2022-02-20 12:22:42.364  INFO 11192 --- [  restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-02-20 12:22:42.374  INFO 11192 --- [  restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-02-20 12:22:42.688  WARN 11192 --- [  restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-02-20 12:22:42.979  INFO 11192 --- [  restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2022-02-20 12:22:43.028  INFO 11192 --- [  restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 9003 (http) with context path ''
+2022-02-20 12:22:43.036  INFO 11192 --- [  restartedMain] c.e.SpringBootAndroidAppApplication      : Started SpringBootAndroidAppApplication in 5.022 seconds (JVM running for 6.115)

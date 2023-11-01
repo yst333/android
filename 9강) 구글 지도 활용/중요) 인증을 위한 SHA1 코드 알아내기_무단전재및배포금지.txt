@@ -1,0 +1,37 @@
+1. 인증을 위한 SHA1 코드 알아내기(첫번째 확인 방법 : cmd 확인)
+
+Microsoft Windows [Version 10.0.19044.1889]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\admin>cd C:\Program Files\Java\jdk1.8.0_221\jre\bin
+
+C:\Program Files\Java\jdk1.8.0_221\jre\bin>keytool.exe -list -v -keystore C:\Users\admin\.android\debug.keystore
+키 저장소 비밀번호 입력:
+
+또는 
+
+Microsoft Windows [Version 10.0.19044.2604]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\hi-guro>cd\
+
+C:\>cd c:\cookandroid\android-studio\jre\bin
+
+c:\CookAndroid\android-studio\jre\bin>keytool.exe -list -v -keystore c:\CookAndroid\.android\debug.keystore
+키 저장소 비밀번호 입력:
+
+===============================================================================
+
+2. 인증을 위한 SHA1 코드 알아내기(두번째 방법 : Android Studio에서 확인)
+
+1) Android Studio 실행 - 상단 View 클릭 - Tool Windows 클릭 - Gradle 클릭
+
+2) 하단 Terminal 클릭 - Command Line 선택
+
+3) 상단 Gradle 탭에서 코끼리 모양 아이콘(Execute Gradle Task) 클릭 - Run Anything에서
+  
+   "gradle signingReport" 입력 후 텍스트 더블클릭하면, Android Studio에도 SHA1 코드를
+
+   볼 수 있습니다.
+
+===============================================================================

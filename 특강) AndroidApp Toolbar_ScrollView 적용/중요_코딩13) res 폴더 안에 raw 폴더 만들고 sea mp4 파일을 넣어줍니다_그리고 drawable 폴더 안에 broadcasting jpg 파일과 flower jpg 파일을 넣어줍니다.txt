@@ -1,0 +1,1 @@
+중요_코딩13) res 폴더 안에 raw 폴더 만들고 sea mp4 파일을 넣어줍니다_그리고 drawable 폴더 안에 broadcasting jpg 파일과 flower jpg 파일을 넣어줍니다
